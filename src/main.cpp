@@ -26,7 +26,7 @@ void setup() {
   Task* bluetoothTask = new BluetoothMsgTask(theater);
   Task* serialTask = new SerialMsgTask(theater);
 
-  bluetoothTask->init(500);
+  bluetoothTask->init(2000);
   scheduler->addTask(bluetoothTask);
 
   // serialTask->init(500);

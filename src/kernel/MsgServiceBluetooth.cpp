@@ -7,7 +7,7 @@ MsgServiceBluetooth::MsgServiceBluetooth(int rxPin, int txPin) {
 
 void MsgServiceBluetooth::init() {
     channel->begin(9600);
-    content.reserve(256);
+    //content.reserve(7000);
     content = "";
    
     currentMsg = NULL;
@@ -15,16 +15,24 @@ void MsgServiceBluetooth::init() {
 }
 
 bool MsgServiceBluetooth::isMsgAvailable() {
-     Serial.print('1');
+    Serial.print("\n");
     while (channel->available()) {
-         Serial.print('2');
         char ch = (char) channel->read();
-        Serial.print(ch);
         if (ch == '\n') {
+            Serial.print(content);
+            Serial.print("\n");
             currentMsg = new Msg(content);
+
+            if(!currentMsg){
+                Serial.print("E' VUOTO!\n");
+            }else{
+                currentMsg->getcontent();
+            }
             availableMsg = true;
+            
             return true;
         } else {
+           
             content += ch;
         }
     }
@@ -33,6 +41,7 @@ bool MsgServiceBluetooth::isMsgAvailable() {
 
 Msg* MsgServiceBluetooth::receiveMsg() {
     if (availableMsg) {
+        Serial.print("Siamo fantastici\n");
         Msg* msg = currentMsg;
         availableMsg = false;
         currentMsg = NULL;

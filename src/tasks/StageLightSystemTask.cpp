@@ -4,12 +4,13 @@
 StageLightSystemTask::StageLightSystemTask(SmartTheater* smartTheater){
     this->theater = smartTheater;
     this->stageLightSystem = smartTheater->getStageLightSystem();
-    this->state = OFF;
+    this->state = ON;
     
 
 }
 
 void StageLightSystemTask::tick(){
+    
     double lightIntensityAudience = this->theater->getLightIntensityAudience();
     switch(state){
         case OFF:{
@@ -23,7 +24,7 @@ void StageLightSystemTask::tick(){
             
         }
         case ON:{
-            if(theater->isShow() || lightIntensityAudience >= MIN_LIGHT_INTENSITY){
+            if(theater->isShow() /*|| lightIntensityAudience >= MIN_LIGHT_INTENSITY*/){
                 setStateOn(); 
             }
             break;

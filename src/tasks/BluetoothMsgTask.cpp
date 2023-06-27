@@ -17,15 +17,20 @@ BluetoothMsgTask::BluetoothMsgTask(SmartTheater* theater) {
 
 void BluetoothMsgTask::tick() {
    
- Serial.print("N");
+
     if (channel->isMsgAvailable()) {
-              Serial.print("M");
+            Serial.print("BluetoothMsgTask tick\n");
         Msg* msg = channel->receiveMsg();
-        String content = msg->getcontent();
+         String content = msg->getcontent();
+         if(!content){
+            Serial.print("NULLO\n");
+         }
+       
+       
+        
         delete(msg);
         handleContent(content);
-    }else{
-        Serial.print("P");
+        
     }
     notify();
 }
@@ -39,25 +44,31 @@ void BluetoothMsgTask::handleContent(String content) {
     //     theater->setSerialMode();
 
     // }else 
-     Serial.print("1");
+    
     if(theater->isBluetoothMode()){
-       Serial.print("1");
+        Serial.print("Bluetooth mode ON\n");
         DynamicJsonDocument json(128);
         DeserializationError error = deserializeJson(json, content);
-        if (!error) {
+        Serial.print(error.c_str());
 
-            if(json.containsKey("routineDuration")){
+        
+        if (!error) {
+            Serial.print("no error\n");
+            if(json.containsKey("A")){
                 int routineDuration = json["routineDuration"].as<float>()*1000;
                 theater->setRoutineDuration(routineDuration);
-                Serial.print("2");
+                Serial.print("routineDuration: " + String(routineDuration));
                 
             }
 
-            if (json.containsKey("stageLightColor")) {
+            if (json.containsKey("stageLightColorG")) {
                 int stageLightColor = json["stageLightColor"];
                 theater->setStageLightColor(stageLightColor, 0,0);
                 
             }
+            
+           
+            
 
             if(json.containsKey("stageLightStartTime")) {
                 bool stageLightStartTime = json["stageLightStartTime"].as<int>();
