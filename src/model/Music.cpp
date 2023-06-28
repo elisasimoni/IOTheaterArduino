@@ -4,12 +4,6 @@
 
 Music::Music(int musicPin) {
     music = new Buzzer(musicPin);
-    startTime = 0;
-    endTime = 0;
-    volume = 0;
-    frequency = 0;
-    duration = 0;
-    song = 0;
 }
 
 void Music::turnOn(int frequency, int duration) {
@@ -60,6 +54,11 @@ int Music::getVolume() {
 void Music::setSong(int song) {
     this->song = song;
 }
+
+int Music::getSong() {
+    return song;
+}
+
 
 
 

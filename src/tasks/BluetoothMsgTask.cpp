@@ -17,17 +17,9 @@ BluetoothMsgTask::BluetoothMsgTask(SmartTheater* theater) {
 
 void BluetoothMsgTask::tick() {
    
-
     if (channel->isMsgAvailable()) {
-            Serial.print("BluetoothMsgTask tick\n");
         Msg* msg = channel->receiveMsg();
-         String content = msg->getcontent();
-         if(!content){
-            Serial.print("NULLO\n");
-         }
-       
-       
-        
+        String content = msg->getcontent();
         delete(msg);
         handleContent(content);
         
@@ -48,63 +40,67 @@ void BluetoothMsgTask::handleContent(String content) {
     if(theater->isBluetoothMode()){
         Serial.print("Bluetooth mode ON\n");
         DynamicJsonDocument json(128);
-        DeserializationError error = deserializeJson(json, content);
-        Serial.print(error.c_str());
-
+        DeserializationError error = deserializeJson(json, content);    
+        Serial.print(error.c_str() );
         
         if (!error) {
-            Serial.print("no error\n");
-            if(json.containsKey("A")){
-                int routineDuration = json["routineDuration"].as<float>()*1000;
+            if(json.containsKey("A")){ //routineDuration
+                int routineDuration = json["A"].as<int>();
                 theater->setRoutineDuration(routineDuration);
-                Serial.print("routineDuration: " + String(routineDuration));
-                
-            }
-
-            if (json.containsKey("stageLightColorG")) {
-                int stageLightColor = json["stageLightColor"];
-                theater->setStageLightColor(stageLightColor, 0,0);
-                
+                Serial.print(routineDuration);
+              
             }
             
-           
-            
-
-            if(json.containsKey("stageLightStartTime")) {
-                bool stageLightStartTime = json["stageLightStartTime"].as<int>();
+            if(json.containsKey("B")) { //stageLightStartTime
+                bool stageLightStartTime = json["B"].as<int>();
                 theater->setStageLightStartTime(stageLightStartTime);
+                Serial.print(stageLightStartTime);
+               
             }
 
-             if(json.containsKey("stageLightEndTime")) {
-                bool stageLightEndTime = json["stageLightEndTime"].as<int>();
+             if(json.containsKey("C")) { //stageLightEndTime
+                bool stageLightEndTime = json["C"].as<int>();
                 theater->setStageLightEndTime(stageLightEndTime);
+                Serial.print(stageLightEndTime);
+              
             }
 
-            if (json.containsKey("stageLightBrightness")) {
-                int stageLightBrightness = json["stageLightBrightness"].as<int>();;
-                theater->setStageLightBrightness(stageLightBrightness);
-            }
-
-            if(json.containsKey("musicSong")){
-                int musicSong = json["musicSong"].as<int>();
-                theater->setMusicSong(musicSong);   
-            }
-
-            if(json.containsKey("musicVolume")){
-                int musicVolume = json["musicVolume"].as<int>();
-                theater->setMusicVolume(musicVolume);   
-            }
-
-            if(json.containsKey("musicStartTime")){
-                int musicStartTime = json["musicStartTime"].as<int>();
+            if(json.containsKey("D")){ //musicStartTime
+                int musicStartTime = json["D"].as<int>();
                 theater->setMusicStartTime(musicStartTime);   
+                Serial.print(musicStartTime);
+               
             }
 
-            if(json.containsKey("musicEndTime")){
-                int musicEndTime = json["musicEndTime"].as<int>();
+            if(json.containsKey("E")){ //musicEndTime
+                int musicEndTime = json["E"].as<int>()*100;
                 theater->setMusicEndTime(musicEndTime);   
+                Serial.print(musicEndTime);
+               
             }
 
+            if(json.containsKey("G")){ //musicSong
+                int musicSong = json["F"].as<int>();
+                theater->setMusicSong(musicSong);   
+                Serial.print(musicSong);
+                
+            }
+
+            if(json.containsKey("F")){ //musicVolume
+                int musicVolume = json["G"].as<int>();
+                theater->setMusicVolume(musicVolume);   
+                Serial.print(musicVolume);
+                
+            }
+
+             if (json.containsKey("H")) { //stageLightBrightness
+                int stageLightBrightness = json["H"].as<int>();
+                theater->setStageLightBrightness(stageLightBrightness);
+                Serial.print(stageLightBrightness);
+               
+            }
+
+            
 
         }
     }
@@ -112,21 +108,6 @@ void BluetoothMsgTask::handleContent(String content) {
 }
 
 void BluetoothMsgTask::notify() {
-    // int blindOpenPercentage = room->getRollerBlinds()->getOpenPercentage();
-    // int lightOn = room->getLight()->isOn() ? 1 : 0;
-    // String controlMode = "";
-    // if (room->isAutoMode()) {
-    //     controlMode = "AUTO";
-    // } else if (room->isSerialMode()) {
-    //     controlMode = "MANUAL_SERIAL";
-    // } else if (room->isBluetoothMode()) {
-    //     controlMode = "MANUAL_BT";
-    // }
-    int routineDuration = theater->getRoutineDuration();
-    String updateString = "{";
-    updateString += "\"routineDuration\": " + String(routineDuration) + ",";
-    // updateString += "\"lightOn\": " + String(lightOn) + ",";
-    // updateString += "\"controlMode\": \"" + controlMode + "\"";
-    // updateString += "}";
-    channel->sendMsg(Msg(updateString));
+
+ 
 }

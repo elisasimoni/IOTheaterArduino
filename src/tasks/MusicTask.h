@@ -11,10 +11,14 @@ private:
     enum {PLAY, STOP} state;
     double startTime, endTime;
     double frequency, duration;
+    int song;
     // void setSong();
     // void getSong();
     void setStateOn();
     void setStateOff();
+    void Tetris();
+    void TronoDiSpade();
+    void StarWars();
 
 public:
     MusicTask(SmartTheater* theater);

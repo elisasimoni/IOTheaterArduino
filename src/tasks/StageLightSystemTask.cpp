@@ -1,5 +1,6 @@
 #include "StageLightSystemTask.h"
 #include "config.h"
+#include <Arduino.h>
 
 StageLightSystemTask::StageLightSystemTask(SmartTheater* smartTheater){
     this->theater = smartTheater;
@@ -14,6 +15,7 @@ void StageLightSystemTask::tick(){
     double lightIntensityAudience = this->theater->getLightIntensityAudience();
     switch(state){
         case OFF:{
+            
             if(theater->isNoShow()){
                 if(lightIntensityAudience < MIN_LIGHT_INTENSITY){
                     setStateOff();
@@ -24,9 +26,11 @@ void StageLightSystemTask::tick(){
             
         }
         case ON:{
-            if(theater->isShow() /*|| lightIntensityAudience >= MIN_LIGHT_INTENSITY*/){
+                     
+            if(theater->isShow() || lightIntensityAudience >= MIN_LIGHT_INTENSITY){
                 setStateOn(); 
             }
+            
             break;
             
         }
@@ -37,8 +41,9 @@ void StageLightSystemTask::tick(){
 }
 
 void StageLightSystemTask::setStateOn(){
+    this->stageLightSystem->turnOn(1,0,0);
     this->state = ON;
-    this->stageLightSystem->turnOn(120,120,120);
+    
 }
 
 void StageLightSystemTask::setStateOff(){
