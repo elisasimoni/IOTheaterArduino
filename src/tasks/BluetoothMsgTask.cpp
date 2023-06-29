@@ -16,7 +16,7 @@ BluetoothMsgTask::BluetoothMsgTask(SmartTheater* theater) {
 }
 
 void BluetoothMsgTask::tick() {
-   
+   Serial.print("BluetoothMsgTask::tick()\n");
     if (channel->isMsgAvailable()) {
         Msg* msg = channel->receiveMsg();
         String content = msg->getcontent();
@@ -29,13 +29,13 @@ void BluetoothMsgTask::tick() {
 
 
 void BluetoothMsgTask::handleContent(String content) {
-    // if(theater->isNoShow() && content.equals("SHOW") ) {
-    //     theater->setBluetoothMode();
+    if(theater->isNoShow()) {
+        theater->setBluetoothMode();
             
-    // } else if (theater->isBluetoothMode()&& content.equals("NO_SHOW")) {
-    //     theater->setSerialMode();
+    } else if (theater->isBluetoothMode() && theater->isNoShow()) {
+        theater->setSerialMode();
 
-    // }else 
+    }
     
     if(theater->isBluetoothMode()){
         Serial.print("Bluetooth mode ON\n");
@@ -44,10 +44,18 @@ void BluetoothMsgTask::handleContent(String content) {
         Serial.print(error.c_str() );
         
         if (!error) {
+
+             if(json.containsKey("btmode")){ //routineDuration
+                int mode = json["btmode"];
+                theater->isBluetoothMode();
+                Serial.print("Bluetooth mode ON\n");
+              
+            }
             if(json.containsKey("A")){ //routineDuration
                 int routineDuration = json["A"].as<int>();
                 theater->setRoutineDuration(routineDuration);
                 Serial.print(routineDuration);
+                theater->isShow();
               
             }
             

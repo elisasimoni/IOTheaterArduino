@@ -11,6 +11,7 @@ CurtainsTask::CurtainsTask(SmartTheater* theater) {
 }
 
 void CurtainsTask::tick() {
+    Serial.print("Curtains tick\n");
     switch (state) {
         case CLOSE: {
             

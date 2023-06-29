@@ -27,6 +27,7 @@ void StageLightSystemTask::tick(){
         }
         case ON:{
                      
+                     
             if(theater->isShow() || lightIntensityAudience >= MIN_LIGHT_INTENSITY){
                 setStateOn(); 
             }

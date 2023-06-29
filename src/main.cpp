@@ -26,11 +26,11 @@ void setup() {
   Task* bluetoothTask = new BluetoothMsgTask(theater);
   Task* serialTask = new SerialMsgTask(theater);
 
-  bluetoothTask->init(200);
+  bluetoothTask->init(500);
   scheduler->addTask(bluetoothTask);
 
-  serialTask->init(500);
-  scheduler->addTask(serialTask);
+  //serialTask->init(500);
+  //scheduler->addTask(serialTask);
 
   stageLightSystemTask->init(500);
   scheduler->addTask(stageLightSystemTask);
