@@ -75,10 +75,10 @@ void SerialMsgTask::notify() {
     //     controlMode = "MANUAL_BT";
     // }
     
-    String updateString = "{";
+    //String updateString = "{";
     // updateString += "\"blindOpenPercentage\": " + String(blindOpenPercentage) + ",";
     // updateString += "\"lightOn\": " + String(lightOn) + ",";
     // updateString += "\"controlMode\": \"" + controlMode + "\"";
     // updateString += "}";
-    channel->sendMsg(Msg(updateString));
+    //channel->sendMsg(Msg(updateString));
 }

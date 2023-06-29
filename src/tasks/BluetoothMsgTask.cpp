@@ -10,16 +10,18 @@ BluetoothMsgTask::BluetoothMsgTask(SmartTheater* theater) {
     this->channel = new MsgServiceBluetooth(RX_PIN, TX_PIN);
     this->channel->init();
     this->theater = theater;
-    theater->setBluetoothMode();
-
+  
 
 }
 
 void BluetoothMsgTask::tick() {
-   Serial.print("BluetoothMsgTask::tick()\n");
+ 
     if (channel->isMsgAvailable()) {
+        Serial.print("Message Avaible\n");
         Msg* msg = channel->receiveMsg();
         String content = msg->getcontent();
+        
+        Serial.print(content);
         delete(msg);
         handleContent(content);
         
@@ -29,23 +31,23 @@ void BluetoothMsgTask::tick() {
 
 
 void BluetoothMsgTask::handleContent(String content) {
-    if(theater->isNoShow()) {
+    /*if(theater->isNoShow()) {
         theater->setBluetoothMode();
             
     } else if (theater->isBluetoothMode() && theater->isNoShow()) {
         theater->setSerialMode();
 
-    }
+    }*/
     
     if(theater->isBluetoothMode()){
         Serial.print("Bluetooth mode ON\n");
         DynamicJsonDocument json(128);
-        DeserializationError error = deserializeJson(json, content);    
-        Serial.print(error.c_str() );
+        DeserializationError error = deserializeJson(json,content);    
+        Serial.print(error.c_str());
         
         if (!error) {
 
-             if(json.containsKey("btmode")){ //routineDuration
+             if(json.containsKey("btmode")){ //btmode
                 int mode = json["btmode"];
                 theater->isBluetoothMode();
                 Serial.print("Bluetooth mode ON\n");

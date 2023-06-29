@@ -19,11 +19,11 @@ MusicTask::MusicTask(SmartTheater* smartTheater){
 void MusicTask::tick(){
     switch (this->state){
         case STOP:{
-           TronoDiSpade();
+           
             if(theater->isShow() && (theater->getRoutineTimer() >= startTime && theater->getRoutineTimer() <= startTime+BUFFER) ){
                 Serial.print("UP");
                 TronoDiSpade();
-                //music->turnOn(frequency, duration);
+                
                 setStateOn();
             }
             break;

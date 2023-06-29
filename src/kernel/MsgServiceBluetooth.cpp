@@ -7,27 +7,30 @@ MsgServiceBluetooth::MsgServiceBluetooth(int rxPin, int txPin) {
 
 void MsgServiceBluetooth::init() {
     channel->begin(9600);
-    content.reserve(1000);
+    content.reserve(256);
     content = "";
-
     currentMsg = NULL;
     availableMsg = false;
 }
 
 bool MsgServiceBluetooth::isMsgAvailable() {
-    
-    while (channel->available()) {
+
+  if (channel->available()) {
         char ch = (char) channel->read();
+        Serial.print(ch);
+
         if (ch == '\n') {
-            Serial.print(content);
+            Serial.println(content);
             currentMsg = new Msg(content);
+            String cont = currentMsg->getcontent();
+           
             availableMsg = true;
             return true;
         } else {
-           
             content += ch;
         }
     }
+
     return false;
 }
 
