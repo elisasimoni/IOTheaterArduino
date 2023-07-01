@@ -14,8 +14,8 @@
 #define MUSIC_PIN 3
 
 #define BUFFER 500
-#define RX_PIN 6
-#define TX_PIN 5
+#define RX_PIN 12
+#define TX_PIN 13
 #define LIGHT_R_PIN 11
 #define LIGHT_G_PIN 10
 #define LIGHT_B_PIN 9

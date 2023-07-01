@@ -8,6 +8,7 @@
 #include "tasks/StageLightSystemTask.h"
 #include "tasks/BluetoothMsgTask.h"
 #include "tasks/SerialMsgTask.h"
+#include "tasks/TimerTask.h"
 #include "config.h"
 
 
@@ -25,18 +26,20 @@ void setup() {
   Task* stageLightSystemTask = new StageLightSystemTask(theater);
   Task* bluetoothTask = new BluetoothMsgTask(theater);
   Task* serialTask = new SerialMsgTask(theater);
+  Task* timerTask = new TimerTask(theater);
 
   bluetoothTask->init(200);
   stageLightSystemTask->init(500);
   musicTask->init(200);
   curtainsTask->init(500);
   spotlightTask->init(200);
-  scheduler->addTask(bluetoothTask);
+  timerTask->init(100);
+  
 
-  //serialTask->init(500);
+
+  serialTask->init(500);
   //scheduler->addTask(serialTask);
 
-  
   scheduler->addTask(stageLightSystemTask);
 
  
@@ -48,7 +51,7 @@ void setup() {
   
   scheduler->addTask(spotlightTask);
 
- 
+  scheduler->addTask(bluetoothTask);
 
 }
 

@@ -33,5 +33,14 @@ double StageLightSystem::getEndTime(){
     return this->endTime;
 }
 
+int StageLightSystem::getBrightness(){
+    return this->brightness;
+}
+
+int StageLightSystem::getRGB(){
+    return this->r + this->g + this->b;
+}
+
+
 
 

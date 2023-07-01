@@ -6,29 +6,23 @@
 #include "config.h"
 
 
-BluetoothMsgTask::BluetoothMsgTask(SmartTheater* theater) {
-    this->channel = new MsgServiceBluetooth(RX_PIN, TX_PIN);
-    this->channel->init();
-    this->theater = theater;
-  
 
+BluetoothMsgTask::BluetoothMsgTask(SmartTheater* theater) {
+    channel = new MsgServiceBluetooth(RX_PIN, TX_PIN);
+    channel->init();
+    this->theater = theater;
 }
 
 void BluetoothMsgTask::tick() {
- 
     if (channel->isMsgAvailable()) {
-        Serial.print("Message Avaible\n");
         Msg* msg = channel->receiveMsg();
         String content = msg->getcontent();
-        
-        Serial.print(content);
         delete(msg);
         handleContent(content);
-        
+    } else {
+        //notify();
     }
-    notify();
 }
-
 
 void BluetoothMsgTask::handleContent(String content) {
     /*if(theater->isNoShow()) {
@@ -38,21 +32,21 @@ void BluetoothMsgTask::handleContent(String content) {
         theater->setSerialMode();
 
     }*/
-    
+    //content="{\"A\":\"1\", \"b\":\"122\",\"c\":\"122\",}";
+    //Serial.print(content);
     if(theater->isBluetoothMode()){
         Serial.print("Bluetooth mode ON\n");
-        DynamicJsonDocument json(128);
+        DynamicJsonDocument json(256);
         DeserializationError error = deserializeJson(json,content);    
         Serial.print(error.c_str());
         
         if (!error) {
 
-        
             if(json.containsKey("A")){ //routineDuration
                 int routineDuration = json["A"].as<int>();
                 theater->setRoutineDuration(routineDuration);
                 Serial.print(routineDuration);
-                theater->startRoutine();
+                //theater->startRoutine();
               
             }
             

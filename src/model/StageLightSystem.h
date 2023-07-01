@@ -23,6 +23,8 @@ public:
     void setBrightness(int brightness);
     double getStartTime();
     double getEndTime();
+    int getBrightness();
+    int getRGB();
     StageLightSystem(int lightPINR, int lightPING, int lightPINB);
 
 

@@ -12,7 +12,9 @@ private:
 public:
    
     Msg(String content) {
+        Serial.println("parametro: " + content);
         this->content = content;
+        Serial.println("effettivo: "+ this->content);
     }
 
 
