@@ -17,7 +17,7 @@ void StageLightSystemTask::tick(){
         case OFF:{
             
             if(theater->isNoShow()){
-                if(lightIntensityAudience < MIN_LIGHT_INTENSITY){
+                if(lightIntensityAudience < MIN_LIGHT_INTENSITY && theater->getRoutineTimer() >= stageLightSystem->getEndTime()+BUFFER && theater->getRoutineTimer() < stageLightSystem->getEndTime()+BUFFER){
                     setStateOff();
                     
                 }
@@ -28,7 +28,7 @@ void StageLightSystemTask::tick(){
         case ON:{
                
                      
-            if(theater->isShow() || lightIntensityAudience >= MIN_LIGHT_INTENSITY){
+            if((theater->isShow() || lightIntensityAudience >= MIN_LIGHT_INTENSITY) && (theater->getRoutineTimer()+BUFFER >= stageLightSystem->getStartTime() && theater->getRoutineTimer() < stageLightSystem->getStartTime()+BUFFER)){
                 setStateOn(); 
             }
             

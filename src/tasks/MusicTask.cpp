@@ -1,6 +1,6 @@
 #include "MusicTask.h"
 #include "config.h"
-#include "../model/SmartTheater.h"
+#include "../model/SmartTheater.h" 
 #include "../model/Music.h"
 #include <Arduino.h>
 
@@ -8,11 +8,6 @@ MusicTask::MusicTask(SmartTheater* smartTheater){
     this->theater = smartTheater;
     this->music = smartTheater->getMusic();
     this->state = STOP;
-    this->startTime = 0;
-    this->endTime = 0;
-    this->frequency = 500; //volume
-    this->duration = 1000; //lunghezza nota
-
     
 }
 
@@ -20,16 +15,15 @@ void MusicTask::tick(){
     switch (this->state){
         case STOP:{
            
-            if(theater->isShow() && (theater->getRoutineTimer() >= startTime && theater->getRoutineTimer() <= startTime+BUFFER) ){
+            if(theater->isShow() && (theater->getRoutineTimer() >= startTime && theater->getRoutineTimer() < startTime+BUFFER) ){
                 Serial.print("UP");
                 TronoDiSpade();
-                
                 setStateOn();
             }
             break;
         }
         case PLAY:{
-            if(theater->isNoShow() || (theater->getRoutineTimer() >= endTime && theater->getRoutineTimer() <= endTime+BUFFER)){
+            if(theater->isNoShow() || (theater->getRoutineTimer() >= endTime && theater->getRoutineTimer() < endTime+BUFFER)){
                setStateOff();
             }
             break;

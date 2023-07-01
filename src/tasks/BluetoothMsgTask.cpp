@@ -47,17 +47,12 @@ void BluetoothMsgTask::handleContent(String content) {
         
         if (!error) {
 
-             if(json.containsKey("btmode")){ //btmode
-                int mode = json["btmode"];
-                theater->isBluetoothMode();
-                Serial.print("Bluetooth mode ON\n");
-              
-            }
+        
             if(json.containsKey("A")){ //routineDuration
                 int routineDuration = json["A"].as<int>();
                 theater->setRoutineDuration(routineDuration);
                 Serial.print(routineDuration);
-                theater->isShow();
+                theater->startRoutine();
               
             }
             

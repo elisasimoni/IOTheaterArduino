@@ -45,6 +45,7 @@ public:
     void setSerialMode();
     void setBluetoothMode();
     void setRoutineDuration(double timer);
+    void startRoutine();
     void setCurtainsOpenPercentage(int percentage);
     void setDistanceActor(int distanceActor);
     void setMusicVolume(double volume);
@@ -57,6 +58,7 @@ public:
     void setMusicStartTime(double startTime);
     void setMusicEndTime(double endTime);
     double getRoutineDuration();
+    bool isRoutineStarted();
 
 
 

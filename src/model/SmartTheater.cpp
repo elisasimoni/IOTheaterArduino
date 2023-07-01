@@ -6,12 +6,10 @@ SmartTheater::SmartTheater(int spotlightPIN, int lightPIN_r,int lightPIN_g, int 
     this->curtains = new Curtains(curtainsPIN);
     this->music = new Music(musicPIN);
     this->stageLightSystem = new StageLightSystem(lightPIN_r, lightPIN_g,lightPIN_b);
- 
     this->distanceActor = 0;
     this->lightIntensityAudience = 0;
     this->state = NO_SHOW;
     this->routineTimer = 0;
-    this->routineStartTime = 0;
     this->mode = BLUETOOTH_MODE;
     
 }
@@ -76,7 +74,12 @@ void SmartTheater::setSerialMode() {
 void SmartTheater::setBluetoothMode() {
     this->mode = BLUETOOTH_MODE;
 }
-
+bool SmartTheater::isRoutineStarted(){
+    if(this->routineTimer > 0){
+        return true;
+    }
+    return false;
+}
 void SmartTheater::setRoutineDuration(double timer){
     this->routineTimer = timer;
 }
@@ -126,7 +129,12 @@ void SmartTheater::setMusicEndTime(double endTime){
 }
 
 double SmartTheater::getRoutineDuration(){
-    return this->routineTimer;
+    return this->routineTimer - this->routineStartTime;
+}
+
+void SmartTheater::startRoutine(){
+    this->state = SHOW;
+    this->routineStartTime = millis();
 }
 
 

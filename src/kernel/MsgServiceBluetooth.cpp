@@ -20,10 +20,8 @@ bool MsgServiceBluetooth::isMsgAvailable() {
         Serial.print(ch);
 
         if (ch == '\n') {
-            Serial.println(content);
+            Serial.println(content);  
             currentMsg = new Msg(content);
-            String cont = currentMsg->getcontent();
-           
             availableMsg = true;
             return true;
         } else {

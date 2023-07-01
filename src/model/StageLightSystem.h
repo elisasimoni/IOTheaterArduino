@@ -21,6 +21,8 @@ public:
     void setStartTime(unsigned long startTime);
     void setEndTime(unsigned long endTime);
     void setBrightness(int brightness);
+    double getStartTime();
+    double getEndTime();
     StageLightSystem(int lightPINR, int lightPING, int lightPINB);
 
 

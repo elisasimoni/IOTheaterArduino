@@ -25,6 +25,13 @@ void StageLightSystem::setBrightness(int brightness){
     this->brightness = brightness;
 }
 
+double StageLightSystem::getStartTime(){
+    return this->startTime;
+}
+
+double StageLightSystem::getEndTime(){
+    return this->endTime;
+}
 
 
 
