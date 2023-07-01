@@ -16,8 +16,10 @@ void Curtains::close(){
 }
 
 void Curtains::plainOpen() {
-    this->servoMotor->setPosition(OPEN_ANGLE);
-    this->openPercentage = 100; // Imposta la percentuale di apertura al 100%
+    this->servoMotor->setPosition(OPEN_ANGLE);  
+    this->openPercentage = 180; // Imposta la percentuale di apertura al 100%
+    
+   
 }
 
 void Curtains::plainClose() {

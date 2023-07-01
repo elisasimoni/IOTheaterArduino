@@ -14,3 +14,7 @@ void Spotlight::turnOn(){
 void Spotlight::turnOff(){
     this->light->switchOff();
 }
+
+bool Spotlight::getState(){
+    return state;
+}

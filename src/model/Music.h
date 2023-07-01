@@ -30,6 +30,7 @@ public:
     void setStartTime(unsigned long startTime);
     void setEndTime(unsigned long endTime);
     void setSong(int song);
+    int getSong();
 
 };
 

@@ -6,13 +6,11 @@ SmartTheater::SmartTheater(int spotlightPIN, int lightPIN_r,int lightPIN_g, int 
     this->curtains = new Curtains(curtainsPIN);
     this->music = new Music(musicPIN);
     this->stageLightSystem = new StageLightSystem(lightPIN_r, lightPIN_g,lightPIN_b);
- 
     this->distanceActor = 0;
     this->lightIntensityAudience = 0;
     this->state = NO_SHOW;
-    this->routineTimer = 0;
-    this->routineStartTime = 0;
     this->mode = BLUETOOTH_MODE;
+    this->timer = 0;
     
 }
 
@@ -52,15 +50,6 @@ bool SmartTheater::isNoShow(){
     return this->state = NO_SHOW;
 }
 
-double SmartTheater::setRoutineTimerStart(){
-  this -> routineStartTime = millis();
-}
-
-double SmartTheater::getRoutineTimer(){
-  unsigned long timePass = millis() - routineStartTime; 
-  return timePass;
-}
-
 bool SmartTheater::isSerialMode() {
     return this->mode == SERIAL_MODE;
 }
@@ -77,9 +66,7 @@ void SmartTheater::setBluetoothMode() {
     this->mode = BLUETOOTH_MODE;
 }
 
-void SmartTheater::setRoutineDuration(double timer){
-    this->routineTimer = timer;
-}
+
 
 void SmartTheater::setCurtainsOpenPercentage(int percentage){
     this->curtains->setPercentage(percentage);
@@ -125,9 +112,14 @@ void SmartTheater::setMusicEndTime(double endTime){
     this->music->setEndTime(endTime);
 }
 
-double SmartTheater::getRoutineDuration(){
-    return this->routineTimer;
+unsigned long SmartTheater::getRoutineDuration(){
+    return this->timer;
 }
+
+void SmartTheater::setRoutineDuration(unsigned long timer){
+    this->timer = timer;
+}
+
 
 
 

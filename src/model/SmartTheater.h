@@ -15,14 +15,12 @@ private:
     Spotlight* spotlight;
     Curtains* curtains;
     Music* music;
-
-    //routine timer
-    double routineTimer, routineStartTime; 
+    
 
     //sensor board data
     int distanceActor;
     double lightIntensityAudience;
-
+    unsigned long timer;
     enum {SHOW, NO_SHOW} state;
     enum {SERIAL_MODE, BLUETOOTH_MODE} mode;
 public:
@@ -44,7 +42,8 @@ public:
     bool isBluetoothMode();
     void setSerialMode();
     void setBluetoothMode();
-    void setRoutineDuration(double timer);
+   
+
     void setCurtainsOpenPercentage(int percentage);
     void setDistanceActor(int distanceActor);
     void setMusicVolume(double volume);
@@ -56,7 +55,12 @@ public:
     void setStageLightBrightness(int brightness);
     void setMusicStartTime(double startTime);
     void setMusicEndTime(double endTime);
-    double getRoutineDuration();
+
+    //tempo
+    void setRoutineDuration(unsigned long timer);
+    unsigned long  getRoutineDuration();
+
+
 
 
 

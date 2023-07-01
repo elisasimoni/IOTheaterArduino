@@ -14,6 +14,7 @@ private:
     Msg* currentMsg;
     bool availableMsg;
     String content;
+ 
 
 public:
 

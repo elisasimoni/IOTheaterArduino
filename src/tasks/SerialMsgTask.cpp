@@ -23,48 +23,41 @@ void SerialMsgTask::tick() {
 
 
 void SerialMsgTask::handleContent(String content) {
-   /* if (room->isAutoMode() && content.equals("chmod MANUAL_SERIAL")) {
-        room->setSerialMode();
-    } else if (room->isSerialMode() && content.equals("chmod AUTO")) {
-        room->setAutoMode();
-    } else {*/
-        // theater->setSerialMode();
-        // DynamicJsonDocument json(128);
-        // DeserializationError error = deserializeJson(json, content);
-        // if (!error) {
-        //     if (json.containsKey("routineTimer")) {
-        //         int presenceDetected = json["presenceDetected"].as<int>() ? true : false;
-        //         theater->setPresenceDetected(presenceDetected);
-        //     }
+    if(theater->isSerialMode()){
+        theater->setSerialMode();
+        DynamicJsonDocument json(128);
+        DeserializationError error = deserializeJson(json, content);
+        if (!error) {
+        
+            // input from Serial
+            if (theater->isSerialMode()) {
+                if (json.containsKey("actorPresence")) {
+                    int actorPresence = json["actorPresence"].as<int>();
+                    theater->setDistanceActor(actorPresence);
+                }
 
-        //     if (json.containsKey("lightLevel")) {
-        //         double lightLevel = json["lightLevel"].as<double>();
-        //         theater->setLightLevel(lightLevel);
-        //     }
-
-        //     if (json.containsKey("hour")) {
-        //         int hour = json["hour"].as<int>();
-        //         theater->setHour(hour);
-        //     }
-
-        //     // input from Serial
-        //     if (room->isSerialMode()) {
-        //         if (json.containsKey("remoteBlindOpenPercentage")) {
-        //             int remoteBlindOpenPercentage = json["remoteBlindOpenPercentage"].as<int>();
-        //             theater->setRemoteBlindOpenPercentage(remoteBlindOpenPercentage);
-        //         }
-
-        //         if (json.containsKey("remoteLightOn")) {
-        //             int remoteLightOn = json["remoteLightOn"].as<int>() == 1 ? true : false;
-        //             theater->setRemoteLightValue(remoteLightOn);
-        //         }
-        //     }
-        // }
+                if (json.containsKey("light")) {
+                    bool audienceLight = json["light"].as<bool>();
+                    //theater->setAudienceLight(audienceLight);
+                }
+            }
+        }
     }
-//}
+}
 
 void SerialMsgTask::notify() {
-    // int blindOpenPercentage = room->getRollerBlinds()->getOpenPercentage();
+    int musicSong = theater->getMusic()->getSong();
+    int musicVolume = theater->getMusic()->getVolume();
+    int curtainsState = theater->getCurtains()->getPercentage();
+    int stageLightBrightness = theater->getStageLightSystem()->getBrightness();
+    int stageLightColor = theater->getStageLightSystem()->getRGB();
+    int spotlightState = theater->getSpotlight()->getState();
+
+
+
+    // int stageLightColor = theater->getStageLightSystem()
+    // int spotlightState = theater->getSpotlight()
+    // int audienceLightState = theater->getAudienceLightSystem()
     // int lightOn = room->getLight()->isOn() ? 1 : 0;
     // String controlMode = "";
     // if (room->isAutoMode()) {
@@ -76,9 +69,17 @@ void SerialMsgTask::notify() {
     // }
     
     String updateString = "{";
-    // updateString += "\"blindOpenPercentage\": " + String(blindOpenPercentage) + ",";
+    updateString += "\"musicSong\": " + String(musicSong) + ",";
+    updateString += "\"musicVolume\": " + String(musicVolume) + ",";
+    updateString += "\"curtainsState\": " + String(curtainsState) + ",";
+    updateString += "\"stageLightBrightness\": " + String(stageLightBrightness) + ",";
+    updateString += "\"stageLightColor\": " + String(stageLightColor) + ",";
+    updateString += "\"spotlightState\": " + String(spotlightState) + ",";
+
+
+
     // updateString += "\"lightOn\": " + String(lightOn) + ",";
     // updateString += "\"controlMode\": \"" + controlMode + "\"";
     // updateString += "}";
-    channel->sendMsg(Msg(updateString));
+    //channel->sendMsg(Msg(updateString));
 }

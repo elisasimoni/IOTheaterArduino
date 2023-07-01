@@ -11,32 +11,34 @@ CurtainsTask::CurtainsTask(SmartTheater* theater) {
 }
 
 void CurtainsTask::tick() {
+   
     switch (state) {
         case CLOSE: {
-            curtains->open();
-            curtains->plainOpen();
-            setCurtainsOpen();
+            
+            if(theater->isShow()){
+                Serial.print("Curtains open\n");
+                curtains->open();
+                curtains->plainOpen();
+                setCurtainsOpen();      
+            }
             break;
         }
 
         case OPEN: {
+           
+            curtains->close();
+
             if(theater->isNoShow() && curtains->getPercentage() == MAX_OPEN_PERCENTAGE){
+                curtains->open();
                 curtains->plainClose();
-                setCurtainsMoving();
-              
-            }
-            
-            break;
-        }
-
-        case MOVING: {
-            if (curtains->getPercentage() <= MAX_OPEN_PERCENTAGE) {
                 setCurtainsStop();
+                Serial.print("Curtains close\n");   
             }
             break;
         }
 
-        case STOP: {
+        case STOP: {       
+            Serial.print("Curtains finish\n");     
             curtains->close();
             break;
         }
@@ -57,12 +59,7 @@ void CurtainsTask::setCurtainsClose() {
 
 void CurtainsTask::setCurtainsStop() {
     this->state = STOP;
-}
-
-void CurtainsTask::setCurtainsMoving() {
-    this->state = MOVING;
-}
-    
+}   
 
 void CurtainsTask::init(int period){
     Task::init(period);
